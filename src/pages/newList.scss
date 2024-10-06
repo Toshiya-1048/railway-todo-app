@@ -1,17 +1,5 @@
 @charset "utf-8";
-
-// カラーバリエーション
-$primary-color: #242f9b;
-$text-color: #555555;
-$button-text-color: #ffffff;
-
-// 共通レイアウト
-$width-large: 1000px;
-$input-width: 300px;
-$button-width: 80px;
-$button-height: 40px;
-$margin-bottom: 25px;
-$border-radius: 5px;
+@import 'common';
 
 // new-listスタイル
 .new-list {

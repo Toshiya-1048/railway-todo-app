@@ -1,19 +1,5 @@
 @charset "utf-8";
-
-// カラーバリエーション
-$primary-color: #242f9b;
-$error-color: #ff3333;
-$text-color: #000000;
-$background-color: #f5f5f5;
-$active-bg-color: $primary-color;
-$active-text-color: #ffffff;
-
-// 共通レイアウト
-$width-large: 1000px;
-$margin-large: 50px auto;
-$padding-small: 25px;
-$padding-medium: 0 25px;
-$border-default: solid 1px $primary-color;
+@import 'common';
 
 // メインタスクリストのスタイル
 .taskList {
@@ -43,7 +29,6 @@ $border-default: solid 1px $primary-color;
       border: $border-default;
       justify-content: center;
       align-items: center;
-      text-overflow: normal;
       cursor: pointer;
 
       &.active {
@@ -88,9 +73,4 @@ $border-default: solid 1px $primary-color;
       width: 100%;
     }
   }
-}
-
-// エラーメッセージのスタイル
-.error-message {
-  color: $error-color;
 }
