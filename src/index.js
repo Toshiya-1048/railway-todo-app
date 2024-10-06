@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -8,14 +8,17 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 
 console.log('API Base URL:', process.env.REACT_APP_API_URL);
+console.log('This is a log');
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+
+root.render(
   <Provider store={store}>
     <CookiesProvider>
       <App />
     </CookiesProvider>
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -27,7 +28,7 @@ export const Home = () => {
       .catch((err) => {
         setErrorMessage(`リストの取得に失敗しました。${err}`);
       });
-  }, []);
+  }, [cookies.token]);
 
   useEffect(() => {
     const listId = lists[0]?.id;
@@ -46,7 +47,7 @@ export const Home = () => {
           setErrorMessage(`タスクの取得に失敗しました。${err}`);
         });
     }
-  }, [lists]);
+  }, [lists, cookies.token]);
 
   const handleSelectList = (id) => {
     setSelectListId(id);
@@ -171,3 +172,12 @@ const Tasks = (props) => {
     </ul>
   );
 };
+
+// prop-typesの定義を追加
+Tasks.propTypes = {
+  tasks: PropTypes.array.isRequired,
+  selectListId: PropTypes.string.isRequired,
+  isDoneDisplay: PropTypes.string.isRequired,
+};
+
+export default Home;
