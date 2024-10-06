@@ -1,14 +1,8 @@
 @charset "utf-8";
-
-// 色の変数定義
-$primary-color: #242f9b;
-$error-color: #ff3333;
-$text-color: #555555;
-$button-width: 80px;
-$button-height: 40px;
+@import 'common';
 
 .new-task {
-  width: 1000px;
+  width: $width-large;
   margin: 0 auto;
 
   .new-task-form {
@@ -17,8 +11,8 @@ $button-height: 40px;
     .new-task-select-list,
     .new-task-title,
     .new-task-detail {
-      width: 300px;
-      margin-bottom: 25px;
+      width: $input-width;
+      margin-bottom: $margin-bottom;
     }
 
     .new-task-detail {
@@ -27,10 +21,10 @@ $button-height: 40px;
 
     .new-task-button {
       background-color: $primary-color;
-      color: #ffffff;
+      color: $button-text-color;
       width: $button-width;
       height: $button-height;
-      border-radius: 5px;
+      border-radius: $border-radius;
     }
   }
 
