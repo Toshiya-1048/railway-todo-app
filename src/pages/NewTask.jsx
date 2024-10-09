@@ -11,17 +11,29 @@ export const NewTask = () => {
   const [lists, setLists] = useState([]);
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
+  const [limit, setLimit] = useState(''); // 期限日時の状態を追加
   const [errorMessage, setErrorMessage] = useState('');
   const [cookies] = useCookies();
   const navigate = useNavigate();
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
-  const handleSelectList = (id) => setSelectListId(id);
+  const handleLimitChange = (e) => {
+    const date = new Date(e.target.value);
+    setLimit(date.toISOString());
+  };
+  const handleSelectList = (e) => setSelectListId(e.target.value); // 修正: イベントから値を取得
+
   const onCreateTask = () => {
+    if (!selectListId) {
+      setErrorMessage('リストを選択してください。');
+      return;
+    }
+
     const data = {
       title: title,
       detail: detail,
       done: false,
+      limit: limit,
     };
 
     axios
@@ -47,12 +59,14 @@ export const NewTask = () => {
       })
       .then((res) => {
         setLists(res.data);
-        setSelectListId(res.data[0]?.id);
+        if (res.data.length > 0) {
+          setSelectListId(res.data[0].id); // 初期選択を最初のリストに設定
+        }
       })
       .catch((err) => {
         setErrorMessage(`リストの取得に失敗しました。${err}`);
       });
-  }, []);
+  }, [cookies.token]);
 
   return (
     <div>
@@ -64,8 +78,9 @@ export const NewTask = () => {
           <label>リスト</label>
           <br />
           <select
-            onChange={(e) => handleSelectList(e.target.value)}
+            onChange={handleSelectList} // 修正: 正しいイベントハンドラーを使用
             className="new-task-select-list"
+            value={selectListId}
           >
             {lists.map((list, key) => (
               <option key={key} className="list-item" value={list.id}>
@@ -88,6 +103,14 @@ export const NewTask = () => {
             type="text"
             onChange={handleDetailChange}
             className="new-task-detail"
+          />
+          <br />
+          <label>期限日時</label>
+          <br />
+          <input
+            type="datetime-local"
+            onChange={handleLimitChange}
+            className="new-task-limit"
           />
           <br />
           <button

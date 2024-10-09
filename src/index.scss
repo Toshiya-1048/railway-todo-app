@@ -10,6 +10,7 @@ $code-font-stack: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box; // 修正: ボックスサイズを境界ボックスに設定
 }
 
 // bodyスタイル
@@ -18,6 +19,7 @@ body {
   font-family: $font-stack;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; // 修正: 横スクロールを防ぐためにオーバーフローを隠す
 }
 
 // codeブロック用のスタイル

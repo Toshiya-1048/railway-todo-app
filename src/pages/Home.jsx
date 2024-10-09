@@ -8,13 +8,15 @@ import { url } from '../const';
 import './home.scss';
 
 export const Home = () => {
-  const [isDoneDisplay, setIsDoneDisplay] = useState('todo'); // todo->未完了 done->完了
+  const [isDoneDisplay, setIsDoneDisplay] = useState('todo');
   const [lists, setLists] = useState([]);
-  const [selectListId, setSelectListId] = useState();
+  const [selectListId, setSelectListId] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [cookies] = useCookies();
+
   const handleIsDoneDisplayChange = (e) => setIsDoneDisplay(e.target.value);
+
   useEffect(() => {
     axios
       .get(`${url}/lists`, {
@@ -23,7 +25,12 @@ export const Home = () => {
         },
       })
       .then((res) => {
-        setLists(res.data);
+        const sortedLists = res.data.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+        setLists(sortedLists);
+        if (sortedLists.length > 0) {
+          setSelectListId(sortedLists[0].id);
+        }
+        console.log('リストID:', sortedLists.map(list => list.id));
       })
       .catch((err) => {
         setErrorMessage(`リストの取得に失敗しました。${err}`);
@@ -31,11 +38,9 @@ export const Home = () => {
   }, [cookies.token]);
 
   useEffect(() => {
-    const listId = lists[0]?.id;
-    if (typeof listId !== 'undefined') {
-      setSelectListId(listId);
+    if (selectListId) {
       axios
-        .get(`${url}/lists/${listId}/tasks`, {
+        .get(`${url}/lists/${selectListId}/tasks`, {
           headers: {
             authorization: `Bearer ${cookies.token}`,
           },
@@ -47,23 +52,35 @@ export const Home = () => {
           setErrorMessage(`タスクの取得に失敗しました。${err}`);
         });
     }
-  }, [lists, cookies.token]);
+  }, [selectListId, cookies.token]);
+
+  useEffect(() => {
+    if (lists.length > 0) {
+      // 初期フォーカスを最初のリストに設定
+      document.querySelectorAll('.list-tab-item')[0].focus();
+    }
+  }, [lists]);
 
   const handleSelectList = (id) => {
     setSelectListId(id);
-    axios
-      .get(`${url}/lists/${id}/tasks`, {
-        headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
-      })
-      .then((res) => {
-        setTasks(res.data.tasks);
-      })
-      .catch((err) => {
-        setErrorMessage(`タスクの取得に失敗しました。${err}`);
-      });
   };
+
+  const handleKeyDown = (e, index) => {
+    console.log('Key pressed:', e.key, 'Index:', index); // デバッグ用ログ
+    let nextIndex;
+    if (e.key === 'ArrowRight') {
+      nextIndex = (index + 1) % lists.length;
+    } else if (e.key === 'ArrowLeft') {
+      nextIndex = (index - 1 + lists.length) % lists.length;
+    }
+
+    if (nextIndex !== undefined) {
+      setSelectListId(lists[nextIndex].id);
+      // 次のタブにフォーカスを移動
+      document.querySelectorAll('.list-tab-item')[nextIndex].focus();
+    }
+  };
+  
   return (
     <div>
       <Header />
@@ -83,14 +100,18 @@ export const Home = () => {
               </p>
             </div>
           </div>
-          <ul className="list-tab">
+          <ul className="list-tab" role="tablist">
             {lists.map((list, key) => {
               const isActive = list.id === selectListId;
               return (
                 <li
                   key={key}
                   className={`list-tab-item ${isActive ? 'active' : ''}`}
+                  role="tab"
+                  aria-selected={isActive}
+                  tabIndex={isActive ? 0 : -1}
                   onClick={() => handleSelectList(list.id)}
+                  onKeyDown={(e) => handleKeyDown(e, key)}
                 >
                   {list.title}
                 </li>
@@ -111,11 +132,13 @@ export const Home = () => {
                 <option value="done">完了</option>
               </select>
             </div>
-            <Tasks
-              tasks={tasks}
-              selectListId={selectListId}
-              isDoneDisplay={isDoneDisplay}
-            />
+            {selectListId && (
+              <Tasks
+                tasks={tasks}
+                selectListId={selectListId}
+                isDoneDisplay={isDoneDisplay}
+              />
+            )}
           </div>
         </div>
       </main>
@@ -128,47 +151,54 @@ const Tasks = (props) => {
   const { tasks, selectListId, isDoneDisplay } = props;
   if (tasks === null) return <></>;
 
-  if (isDoneDisplay === 'done') {
-    return (
-      <ul>
-        {tasks
-          .filter((task) => {
-            return task.done === true;
-          })
-          .map((task, key) => (
-            <li key={key} className="task-item">
-              <Link
-                to={`/lists/${selectListId}/tasks/${task.id}`}
-                className="task-item-link"
-              >
-                {task.title}
-                <br />
-                {task.done ? '完了' : '未完了'}
-              </Link>
-            </li>
-          ))}
-      </ul>
-    );
-  }
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const calculateRemainingTime = (limit) => {
+    const now = new Date();
+    const deadline = new Date(limit);
+    const diff = deadline - now;
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+    const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    let remainingTime = '';
+    if (years > 0) {
+      remainingTime += `${years}年 `;
+    }
+    if (days > 0 || years > 0) {
+      remainingTime += `${days}日 `;
+    }
+    remainingTime += `${hours}時間 ${minutes}分`;
+
+    return remainingTime;
+  };
+
+  const filteredTasks = tasks
+    .filter((task) => task.done === (isDoneDisplay === 'done'))
+    .sort((a, b) => new Date(a.limit) - new Date(b.limit)); // 期限でソート
 
   return (
     <ul>
-      {tasks
-        .filter((task) => {
-          return task.done === false;
-        })
-        .map((task, key) => (
-          <li key={key} className="task-item">
-            <Link
-              to={`/lists/${selectListId}/tasks/${task.id}`}
-              className="task-item-link"
-            >
-              {task.title}
-              <br />
-              {task.done ? '完了' : '未完了'}
-            </Link>
-          </li>
-        ))}
+      {filteredTasks.map((task, key) => (
+        <li key={key} className="task-item">
+          <Link
+            to={`/lists/${selectListId}/tasks/${task.id}`}
+            className="task-item-link"
+          >
+            {task.title}
+            <br />
+            {task.done ? '完了' : '未完了'}
+            <br />
+            期限: {formatDate(task.limit)}
+            <br />
+            残り時間: {calculateRemainingTime(task.limit)}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
