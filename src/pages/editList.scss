@@ -31,3 +31,17 @@
     }
   }
 }
+
+// タブレット対応
+@media (max-width: 768px) {
+  .edit-list {
+    width: 90%;
+  }
+}
+
+// スマートフォン対応
+@media (max-width: 320px) {
+  .edit-list {
+    width: 95%;
+  }
+}

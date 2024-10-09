@@ -10,7 +10,8 @@
 
     .new-task-select-list,
     .new-task-title,
-    .new-task-detail {
+    .new-task-detail,
+    .new-task-limit {
       width: $input-width;
       margin-bottom: $margin-bottom;
     }
@@ -30,5 +31,19 @@
 
   .error-message {
     color: $error-color;
+  }
+}
+
+// タブレット対応
+@media (max-width: 768px) {
+  .new-task {
+    width: 90%;
+  }
+}
+
+// スマートフォン対応
+@media (max-width: 320px) {
+  .new-task {
+    width: 95%;
   }
 }

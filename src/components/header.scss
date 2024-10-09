@@ -6,6 +6,8 @@ $text-color: #ffffff;
 
 // ヘッダースタイル
 .header {
+  max-width: 100%; // 修正: 最大幅を100%に制限
+  overflow: hidden; // 修正: オーバーフローを隠す
   width: 100%;
   height: 80px;
   background-color: $primary-color;

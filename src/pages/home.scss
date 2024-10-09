@@ -19,17 +19,22 @@
   .list-tab {
     list-style: none;
     display: flex;
-    overflow-x: auto;
+    flex-wrap: wrap; // フレックスラップを確認
+    overflow: hidden;
 
     .list-tab-item {
       flex-shrink: 0;
-      width: 100px;
+      width: auto;
+      max-width: 150px; // 最大幅を調整
       padding: $padding-medium;
       margin-right: 5px;
       border: $border-default;
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      white-space: nowrap; // 改行を防ぐ
+      overflow: hidden;
+      text-overflow: ellipsis; // 省略記号を追加
 
       &.active {
         background-color: $active-bg-color;
@@ -48,12 +53,13 @@
 
     .task-item {
       list-style-type: none;
-      height: 70px;
+      height: auto; // 高さを自動調整
       width: calc(100% - 25px);
       background-color: $background-color;
-      padding-left: $padding-small;
+      padding: $padding-small;
       font-size: large;
       border: solid 1px $background-color;
+      margin-bottom: 10px; // タスク間のスペースを追加
     }
 
     .task-item-link {
@@ -71,6 +77,48 @@
 
     .display-select {
       width: 100%;
+    }
+  }
+}
+
+// タブレット対応
+@media (max-width: 768px) {
+  .taskList {
+    width: 90%;
+    margin: 20px auto;
+
+    .list-tab {
+      .list-tab-item {
+        max-width: 120px;
+        padding: 10px;
+      }
+    }
+
+    .tasks {
+      .task-item {
+        font-size: medium;
+      }
+    }
+  }
+}
+
+// スマートフォン対応
+@media (max-width: 320px) {
+  .taskList {
+    width: 95%;
+    margin: 10px auto;
+
+    .list-tab {
+      .list-tab-item {
+        max-width: 100px;
+        padding: 8px;
+      }
+    }
+
+    .tasks {
+      .task-item {
+        font-size: small;
+      }
     }
   }
 }
