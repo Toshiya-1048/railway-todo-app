@@ -1,9 +1,13 @@
 @charset "utf-8";
 @import 'common';
+@import 'common-mobile';
+@import 'common-tablet';
 
+// PC用スタイル
 .edit-list {
   width: $width-large;
   margin: 0 auto;
+  padding: $padding-medium;
 
   .edit-list-form {
     color: $text-color;
@@ -18,8 +22,9 @@
       border: solid 1px $error-color;
       width: $button-width;
       height: $button-height;
-      margin: $margin-bottom 5px;
+      margin-bottom: $margin-bottom;
       border-radius: $border-radius;
+      margin-top: 25px;
     }
 
     .edit-list-button {
@@ -36,6 +41,20 @@
 @media (max-width: 768px) {
   .edit-list {
     width: 90%;
+    margin: 20px auto;
+
+    .edit-list-form {
+      .edit-list-title {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .delete-list-button,
+      .edit-list-button {
+        width: 100%;
+        padding: 12px;
+      }
+    }
   }
 }
 
@@ -43,5 +62,19 @@
 @media (max-width: 320px) {
   .edit-list {
     width: 95%;
+    margin: 10px auto;
+
+    .edit-list-form {
+      .edit-list-title {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .delete-list-button,
+      .edit-list-button {
+        width: 100%;
+        padding: 15px;
+      }
+    }
   }
 }

@@ -25,12 +25,17 @@ export const Home = () => {
         },
       })
       .then((res) => {
-        const sortedLists = res.data.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+        const sortedLists = res.data.sort((a, b) =>
+          a.title.localeCompare(b.title, 'ja')
+        );
         setLists(sortedLists);
         if (sortedLists.length > 0) {
           setSelectListId(sortedLists[0].id);
         }
-        console.log('リストID:', sortedLists.map(list => list.id));
+        console.log(
+          'リストID:',
+          sortedLists.map((list) => list.id)
+        );
       })
       .catch((err) => {
         setErrorMessage(`リストの取得に失敗しました。${err}`);
@@ -80,7 +85,7 @@ export const Home = () => {
       document.querySelectorAll('.list-tab-item')[nextIndex].focus();
     }
   };
-  
+
   return (
     <div>
       <Header />
@@ -152,7 +157,13 @@ const Tasks = (props) => {
   if (tasks === null) return <></>;
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
@@ -161,7 +172,9 @@ const Tasks = (props) => {
     const deadline = new Date(limit);
     const diff = deadline - now;
     const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-    const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+    const days = Math.floor(
+      (diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24)
+    );
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 

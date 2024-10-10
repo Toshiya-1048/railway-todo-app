@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+// スマートフォン用共通スタイル
+$mobile-width: 95%;
+$mobile-margin: 10px auto;
+$mobile-font-size-small: small;
+$mobile-padding-small: 8px;
+
+// 共通スタイル
+.mobile-container {
+  width: $mobile-width;
+  margin: $mobile-margin;
+}
+
+.mobile-font-small {
+  font-size: $mobile-font-size-small;
+}
+
+.mobile-padding-small {
+  padding: $mobile-padding-small;
+}

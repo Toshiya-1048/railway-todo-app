@@ -1,11 +1,14 @@
 @charset "utf-8";
 @import 'common';
+@import 'common-mobile';
+@import 'common-tablet';
 
-// メインタスクリストのスタイル
+// PC用スタイル
 .taskList {
   margin: $margin-large;
   list-style: none;
   width: $width-large;
+  padding: $padding-medium;
 
   .list-header {
     display: flex;
@@ -19,22 +22,22 @@
   .list-tab {
     list-style: none;
     display: flex;
-    flex-wrap: wrap; // フレックスラップを確認
+    flex-wrap: wrap;
     overflow: hidden;
 
     .list-tab-item {
       flex-shrink: 0;
       width: auto;
-      max-width: 150px; // 最大幅を調整
+      max-width: 150px;
       padding: $padding-medium;
       margin-right: 5px;
       border: $border-default;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      white-space: nowrap; // 改行を防ぐ
+      white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis; // 省略記号を追加
+      text-overflow: ellipsis;
 
       &.active {
         background-color: $active-bg-color;
@@ -53,13 +56,13 @@
 
     .task-item {
       list-style-type: none;
-      height: auto; // 高さを自動調整
+      height: auto;
       width: calc(100% - 25px);
       background-color: $background-color;
       padding: $padding-small;
       font-size: large;
       border: solid 1px $background-color;
-      margin-bottom: 10px; // タスク間のスペースを追加
+      margin-bottom: 10px;
     }
 
     .task-item-link {
@@ -90,7 +93,7 @@
     .list-tab {
       .list-tab-item {
         max-width: 120px;
-        padding: 10px;
+        padding: 12px;
       }
     }
 
@@ -105,19 +108,55 @@
 // スマートフォン対応
 @media (max-width: 320px) {
   .taskList {
-    width: 95%;
-    margin: 10px auto;
+    width: $mobile-width;
+    margin: $mobile-margin;
+
+    .list-header {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .list-menu {
+        text-align: left;
+        margin-top: 10px;
+
+        p {
+          margin-bottom: 10px;
+        }
+      }
+    }
 
     .list-tab {
       .list-tab-item {
-        max-width: 100px;
-        padding: 8px;
+        padding: 12px;
+        font-size: $mobile-font-size-small;
+        max-width: 100%;
+        margin-bottom: 8px;
       }
     }
 
     .tasks {
+      .tasks-header {
+        flex-direction: column;
+        align-items: flex-start;
+
+        a {
+          margin-top: 10px;
+        }
+      }
+
       .task-item {
-        font-size: small;
+        font-size: $mobile-font-size-small;
+        padding: 20px;
+        margin-bottom: 15px;
+      }
+    }
+
+    .display-select-wrapper {
+      width: 100%;
+      margin: 15px 0 15px 0;
+
+      .display-select {
+        width: 100%;
       }
     }
   }

@@ -1,9 +1,12 @@
 @charset "utf-8";
 @import 'common';
+@import 'common-mobile';
+@import 'common-tablet';
 
 .new-task {
   width: $width-large;
   margin: 0 auto;
+  padding: $padding-medium;
 
   .new-task-form {
     color: $text-color;
@@ -38,12 +41,49 @@
 @media (max-width: 768px) {
   .new-task {
     width: 90%;
+    margin: 20px auto;
+
+    .new-task-form {
+      .new-task-select-list,
+      .new-task-title,
+      .new-task-detail,
+      .new-task-limit {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .new-task-button {
+        width: 100%;
+        padding: 12px;
+      }
+    }
   }
 }
 
 // スマートフォン対応
 @media (max-width: 320px) {
   .new-task {
-    width: 95%;
+    width: $mobile-width;
+    margin: $mobile-margin;
+
+    .new-task-form {
+      .new-task-select-list,
+      .new-task-title,
+      .new-task-detail,
+      .new-task-limit {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .new-task-limit {
+        padding: 12px; // パディングを追加
+        height: 50px; // 高さを追加
+      }
+
+      .new-task-button {
+        width: 100%;
+        padding: 15px;
+      }
+    }
   }
 }
