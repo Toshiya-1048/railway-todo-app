@@ -1,24 +1,20 @@
 @charset "utf-8";
 @import 'common';
+@import 'common-mobile';
+@import 'common-tablet';
 
-// サインインページのスタイル
+// PC用スタイル
 .signin {
   width: $width-medium;
   margin: 0 auto;
+  padding: $padding-medium;
 
   .signin-form {
-    margin: $margin-bottom 0;
-
-    .email-label,
-    .password-label {
-      color: $text-color;
-    }
+    color: $text-color;
 
     .email-input,
     .password-input {
       width: 100%;
-      font-size: large;
-      height: $input-height;
       margin-bottom: $margin-bottom;
     }
 
@@ -32,8 +28,46 @@
       border: none;
     }
   }
+}
 
-  .error-message {
-    color: $error-color;
+// タブレット対応
+@media (max-width: 768px) {
+  .signin {
+    width: 90%;
+    margin: 20px auto;
+
+    .signin-form {
+      .email-input,
+      .password-input {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .signin-button {
+        width: 100%;
+        padding: 12px;
+      }
+    }
+  }
+}
+
+// スマートフォン対応
+@media (max-width: 320px) {
+  .signin {
+    width: 95%;
+    margin: 10px auto;
+
+    .signin-form {
+      .email-input,
+      .password-input {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .signin-button {
+        width: 100%;
+        padding: 15px;
+      }
+    }
   }
 }

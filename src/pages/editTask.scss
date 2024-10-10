@@ -1,9 +1,12 @@
 @charset "utf-8";
 @import 'common';
+@import 'common-mobile';
+@import 'common-tablet';
 
 .edit-task {
   width: $width-large;
   margin: 0 auto;
+  padding: $padding-medium;
 
   .edit-task-form {
     color: $text-color;
@@ -21,8 +24,9 @@
       border: solid 1px $error-color;
       width: $button-width;
       height: $button-height;
-      margin: $margin-bottom 5px;
+      margin-bottom: $margin-bottom;
       border-radius: $border-radius;
+      margin-top: 25px;
     }
 
     .edit-task-button {
@@ -43,12 +47,51 @@
 @media (max-width: 768px) {
   .edit-task {
     width: 90%;
+    margin: 20px auto;
+
+    .edit-task-form {
+      .edit-task-select-list,
+      .edit-task-title,
+      .edit-task-detail,
+      .edit-task-limit {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .delete-task-button,
+      .edit-task-button {
+        width: 100%;
+        padding: 12px;
+      }
+    }
   }
 }
 
 // スマートフォン対応
 @media (max-width: 320px) {
   .edit-task {
-    width: 95%;
+    width: $mobile-width;
+    margin: $mobile-margin;
+
+    .edit-task-form {
+      .edit-task-select-list,
+      .edit-task-title,
+      .edit-task-detail,
+      .edit-task-limit {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .edit-task-limit {
+        padding: 12px; // パディングを追加
+        height: 50px; // 高さを追加
+      }
+
+      .delete-task-button,
+      .edit-task-button {
+        width: 100%;
+        padding: 15px;
+      }
+    }
   }
 }

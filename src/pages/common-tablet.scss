@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+// タブレット用共通スタイル
+$tablet-width: 90%;
+$tablet-margin: 20px auto;
+$tablet-font-size-medium: medium;
+$tablet-padding-medium: 12px;
+
+// 共通スタイル
+.tablet-container {
+  width: $tablet-width;
+  margin: $tablet-margin;
+}
+
+.tablet-font-medium {
+  font-size: $tablet-font-size-medium;
+}
+
+.tablet-padding-medium {
+  padding: $tablet-padding-medium;
+}
