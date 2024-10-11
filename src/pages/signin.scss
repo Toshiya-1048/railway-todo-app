@@ -33,19 +33,19 @@
 // タブレット対応
 @media (max-width: 768px) {
   .signin {
-    width: 90%;
-    margin: 20px auto;
+    width: $tablet-width;
+    margin: $tablet-margin;
 
     .signin-form {
       .email-input,
       .password-input {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: $tablet-padding-medium;
       }
 
       .signin-button {
         width: 100%;
-        padding: 12px;
+        padding: $tablet-padding-medium;
       }
     }
   }
@@ -54,19 +54,19 @@
 // スマートフォン対応
 @media (max-width: 320px) {
   .signin {
-    width: 95%;
-    margin: 10px auto;
+    width: $mobile-width;
+    margin: $mobile-margin;
 
     .signin-form {
       .email-input,
       .password-input {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: $mobile-padding-small;
       }
 
       .signin-button {
         width: 100%;
-        padding: 15px;
+        padding: $mobile-padding-small;
       }
     }
   }

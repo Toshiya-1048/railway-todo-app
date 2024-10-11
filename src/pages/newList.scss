@@ -32,18 +32,18 @@
 // タブレット対応
 @media (max-width: 768px) {
   .new-list {
-    width: 90%;
-    margin: 20px auto;
+    width: $tablet-width;
+    margin: $tablet-margin;
 
     .new-list-form {
       .new-list-title {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: $tablet-padding-medium;
       }
 
       .new-list-button {
         width: 100%;
-        padding: 12px;
+        padding: $tablet-padding-medium;
       }
     }
   }
@@ -52,18 +52,18 @@
 // スマートフォン対応
 @media (max-width: 320px) {
   .new-list {
-    width: 95%;
-    margin: 10px auto;
+    width: $mobile-width;
+    margin: $mobile-margin;
 
     .new-list-form {
       .new-list-title {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: $mobile-padding-small;
       }
 
       .new-list-button {
         width: 100%;
-        padding: 15px;
+        padding: $mobile-padding-small;
       }
     }
   }

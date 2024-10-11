@@ -11,17 +11,28 @@ export const NewTask = () => {
   const [lists, setLists] = useState([]);
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
-  const [limit, setLimit] = useState(''); // 期限日時の状態を追加
+  const [limit, setLimit] = useState(''); // Railway_04 期限日時の状態を追加
   const [errorMessage, setErrorMessage] = useState('');
   const [cookies] = useCookies();
   const navigate = useNavigate();
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
   const handleLimitChange = (e) => {
+    // Railway_04 期限設定を司る
     const date = new Date(e.target.value);
-    setLimit(date.toISOString());
+    setLimit(date.toISOString()); // Railway_04 取得したDateオブジェクトをISO 8601形式の文字列に変換
   };
-  const handleSelectList = (e) => setSelectListId(e.target.value); // 修正: イベントから値を取得
+  const getCurrentDateTime = () => {
+    // Railway_04 期限設定時の最古の時刻を現在の時間にするための関数
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+  const handleSelectList = (e) => setSelectListId(e.target.value);
 
   const onCreateTask = () => {
     if (!selectListId) {
@@ -33,7 +44,7 @@ export const NewTask = () => {
       title: title,
       detail: detail,
       done: false,
-      limit: limit,
+      limit: limit, // Railway_04 タスク期限設定に関するフィールドを追加。日時のフォーマットは YYYY-MM-DDTHH:MM:SSZ
     };
 
     axios
@@ -60,7 +71,7 @@ export const NewTask = () => {
       .then((res) => {
         setLists(res.data);
         if (res.data.length > 0) {
-          setSelectListId(res.data[0].id); // 初期選択を最初のリストに設定
+          setSelectListId(res.data[0].id);
         }
       })
       .catch((err) => {
@@ -78,7 +89,7 @@ export const NewTask = () => {
           <label>リスト</label>
           <br />
           <select
-            onChange={handleSelectList} // 修正: 正しいイベントハンドラーを使用
+            onChange={handleSelectList}
             className="new-task-select-list"
             value={selectListId}
           >
@@ -105,12 +116,13 @@ export const NewTask = () => {
             className="new-task-detail"
           />
           <br />
-          <label>期限日時</label>
+          <label>期限日時</label> {/* Railway_04 期限日時入力欄追加 */}
           <br />
           <input
             type="datetime-local"
             onChange={handleLimitChange}
             className="new-task-limit"
+            min={getCurrentDateTime()}
           />
           <br />
           <button
