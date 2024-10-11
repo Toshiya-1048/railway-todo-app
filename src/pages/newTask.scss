@@ -40,8 +40,8 @@
 // タブレット対応
 @media (max-width: 768px) {
   .new-task {
-    width: 90%;
-    margin: 20px auto;
+    width: $tablet-width;
+    margin: $tablet-margin;
 
     .new-task-form {
       .new-task-select-list,
@@ -49,12 +49,12 @@
       .new-task-detail,
       .new-task-limit {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: $tablet-padding-medium;
       }
 
       .new-task-button {
         width: 100%;
-        padding: 12px;
+        padding: $tablet-padding-medium;
       }
     }
   }
@@ -72,7 +72,7 @@
       .new-task-detail,
       .new-task-limit {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: $mobile-padding-small;
       }
 
       .new-task-limit {
@@ -82,7 +82,7 @@
 
       .new-task-button {
         width: 100%;
-        padding: 15px;
+        padding: $mobile-padding-small;
       }
     }
   }

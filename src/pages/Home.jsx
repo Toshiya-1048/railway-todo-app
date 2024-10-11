@@ -25,17 +25,13 @@ export const Home = () => {
         },
       })
       .then((res) => {
-        const sortedLists = res.data.sort((a, b) =>
+        const sortedLists = res.data.sort((a, b) => //Railway_05 リスト順をアルファベット順→五十音順になるように変更
           a.title.localeCompare(b.title, 'ja')
         );
         setLists(sortedLists);
         if (sortedLists.length > 0) {
           setSelectListId(sortedLists[0].id);
         }
-        console.log(
-          'リストID:',
-          sortedLists.map((list) => list.id)
-        );
       })
       .catch((err) => {
         setErrorMessage(`リストの取得に失敗しました。${err}`);
@@ -61,7 +57,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (lists.length > 0) {
-      // 初期フォーカスを最初のリストに設定
+      // Railway_05 初期フォーカスを最初のリストに設定
       document.querySelectorAll('.list-tab-item')[0].focus();
     }
   }, [lists]);
@@ -71,7 +67,7 @@ export const Home = () => {
   };
 
   const handleKeyDown = (e, index) => {
-    console.log('Key pressed:', e.key, 'Index:', index); // デバッグ用ログ
+    // Railway_05 方向キーによるリストの選択。また、末尾と先頭で選択をループさせるための処理
     let nextIndex;
     if (e.key === 'ArrowRight') {
       nextIndex = (index + 1) % lists.length;
@@ -80,8 +76,11 @@ export const Home = () => {
     }
 
     if (nextIndex !== undefined) {
+      console.log(`次のインデックス: ${nextIndex}`);
+      console.log(`選択されたリストID: ${lists[nextIndex].id}`);
+
       setSelectListId(lists[nextIndex].id);
-      // 次のタブにフォーカスを移動
+      // Railway_05 次のタブにフォーカスを移動
       document.querySelectorAll('.list-tab-item')[nextIndex].focus();
     }
   };
@@ -109,7 +108,7 @@ export const Home = () => {
             {lists.map((list, key) => {
               const isActive = list.id === selectListId;
               return (
-                <li
+                <li /* Railway_05 li要素にキーボードでリスト選択を行えるようにするための属性と処理を追加 */
                   key={key}
                   className={`list-tab-item ${isActive ? 'active' : ''}`}
                   role="tab"
@@ -157,6 +156,7 @@ const Tasks = (props) => {
   if (tasks === null) return <></>;
 
   const formatDate = (dateString) => {
+    // Railway_06 期限日時を読みやすくフォーマット
     const options = {
       year: 'numeric',
       month: 'short',
@@ -168,6 +168,8 @@ const Tasks = (props) => {
   };
 
   const calculateRemainingTime = (limit) => {
+    // Railway_04 期限日時と現在の時刻の差分から残り時間を計算・表示
+    // 残り時間が1年を切っているか、1日を切っているかの判定を行う処理
     const now = new Date();
     const deadline = new Date(limit);
     const diff = deadline - now;
@@ -192,7 +194,7 @@ const Tasks = (props) => {
 
   const filteredTasks = tasks
     .filter((task) => task.done === (isDoneDisplay === 'done'))
-    .sort((a, b) => new Date(a.limit) - new Date(b.limit)); // 期限でソート
+    .sort((a, b) => new Date(a.limit) - new Date(b.limit)); // Railway_04 期限でソート
 
   return (
     <ul>
@@ -206,7 +208,7 @@ const Tasks = (props) => {
             <br />
             {task.done ? '完了' : '未完了'}
             <br />
-            期限: {formatDate(task.limit)}
+            期限: {formatDate(task.limit)} {/* Railway_04 タスク期限関連表示の追加 */}
             <br />
             残り時間: {calculateRemainingTime(task.limit)}
           </Link>

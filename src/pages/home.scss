@@ -87,19 +87,19 @@
 // タブレット対応
 @media (max-width: 768px) {
   .taskList {
-    width: 90%;
-    margin: 20px auto;
+    width: $tablet-width;
+    margin: $tablet-margin;
 
     .list-tab {
       .list-tab-item {
         max-width: 120px;
-        padding: 12px;
+        padding: $tablet-padding-medium;
       }
     }
 
     .tasks {
       .task-item {
-        font-size: medium;
+        font-size: $tablet-font-size-medium;
       }
     }
   }
@@ -127,7 +127,7 @@
 
     .list-tab {
       .list-tab-item {
-        padding: 12px;
+        padding: $mobile-padding-small;
         font-size: $mobile-font-size-small;
         max-width: 100%;
         margin-bottom: 8px;
