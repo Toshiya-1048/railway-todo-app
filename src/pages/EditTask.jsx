@@ -13,15 +13,14 @@ export const EditTask = () => {
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
   const [isDone, setIsDone] = useState();
-  const [limit, setLimit] = useState(''); // 期限日時の状態を追加
+  const [limit, setLimit] = useState(''); // Railway_04 期限日時の状態を追加
   const [errorMessage, setErrorMessage] = useState('');
-  const [lists, setLists] = useState([]); // リストの状態を追加
-  const [selectListId, setSelectListId] = useState(listId); // 選択されたリストIDの状態を追加
-
+  const [lists, setLists] = useState([]); // Railway_04 リストの状態を追加
+  const [selectListId, setSelectListId] = useState(listId); // Railway_04 選択されたリストIDの状態を追加
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
   const handleIsDoneChange = (e) => setIsDone(e.target.value === 'done');
-  const handleLimitChange = (e) => {
+  const handleLimitChange = (e) => { // Railway_04 期限日時が変更された際にlimitを更新
     const date = new Date(e.target.value);
     setLimit(date.toISOString());
   };
@@ -34,7 +33,7 @@ export const EditTask = () => {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
-  const handleSelectList = (e) => setSelectListId(e.target.value); // リスト選択の変更ハンドラー
+  const handleSelectList = (e) => setSelectListId(e.target.value); // Railway_04 リスト選択の変更ハンドラー
 
   const onUpdateTask = () => {
     const data = {
@@ -98,7 +97,7 @@ export const EditTask = () => {
         setTitle(task.title);
         setDetail(task.detail);
         setIsDone(task.done);
-        setLimit(task.limit);
+        setLimit(task.limit); // Railway_04 期限を設定
       })
       .catch((err) => {
         setErrorMessage(`タスク情報の取得に失敗しました。${err}`);
@@ -144,13 +143,13 @@ export const EditTask = () => {
             value={detail}
           />
           <br />
-          <label>期限日時</label>
+          <label>期限日時</label> {/* Railway_04 期限日時編集 */}
           <br />
           <input
             type="datetime-local"
             onChange={handleLimitChange}
             className="edit-task-limit"
-            value={limit}
+            value={limit.slice(0, 16)} // Railway_04 datetime-local形式に合わせる
             min={getCurrentDateTime()}
           />
           <br />
