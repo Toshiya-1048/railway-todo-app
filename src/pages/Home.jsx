@@ -169,7 +169,6 @@ const Tasks = (props) => {
 
   const calculateRemainingTime = (limit) => {
     // Railway_04 期限日時と現在の時刻の差分から残り時間を計算・表示
-    // 残り時間が1年を切っているか、1日を切っているかの判定を行う処理
     const now = new Date();
     const deadline = new Date(limit);
     const diff = deadline - now;
@@ -198,22 +197,32 @@ const Tasks = (props) => {
 
   return (
     <ul>
-      {filteredTasks.map((task, key) => (
-        <li key={key} className="task-item">
-          <Link
-            to={`/lists/${selectListId}/tasks/${task.id}`}
-            className="task-item-link"
-          >
-            {task.title}
-            <br />
-            {task.done ? '完了' : '未完了'}
-            <br />
-            期限: {formatDate(task.limit)} {/* Railway_04 タスク期限関連表示の追加 */}
-            <br />
-            残り時間: {calculateRemainingTime(task.limit)}
-          </Link>
-        </li>
-      ))}
+      {filteredTasks.map((task, key) => {
+        const now = new Date();
+        const deadline = new Date(task.limit);
+        const isOverdue = deadline < now; // 期限が過ぎているかの判定
+
+        return (
+          <li key={key} className="task-item">
+            <Link
+              to={`/lists/${selectListId}/tasks/${task.id}`}
+              className="task-item-link"
+            >
+              {task.title}
+              <br />
+              {task.done ? '完了' : '未完了'}
+              <br />
+              期限: {formatDate(task.limit)}
+              <br />
+              {isOverdue ? (
+                <span style={{ color: 'red' }}>タスク期限をオーバーしています</span>
+              ) : (
+                <span>残り時間: {calculateRemainingTime(task.limit)}</span>
+              )}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 };
